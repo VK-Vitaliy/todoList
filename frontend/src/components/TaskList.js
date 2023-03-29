@@ -7,6 +7,9 @@ const TaskList = ({tasks}) => {
             <div key={index} className="task-wrapper flex-wrapper">
                 <div style={{flex: 10}}>
                     <span>{task.title}</span>
+                    <div className="user-info-wrapper">
+                        <span>{"added by "}{task.user_name + ";"} {"email: "}{task.user_email}</span>
+                    </div>
                 </div>
 
                 <div style={{flex: 1}}>
