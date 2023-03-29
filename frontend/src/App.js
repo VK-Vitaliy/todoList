@@ -2,6 +2,8 @@ import React from "react";
 import './App.css';
 import axios from "axios";
 
+import TaskList from "./components/TaskList";
+
 
 const DOMAIN = 'http://127.0.0.1:8000/api/todo/'
 
@@ -32,6 +34,7 @@ class App extends React.Component {
         axios.get(DOMAIN)
             .then(response => {
                 this.setState({todoList: response.data})
+                console.log(this.state.todoList)
             }).catch(error => console.log(error))
 
     }
@@ -43,7 +46,7 @@ class App extends React.Component {
                     <div id="form-wrapper">
                         <form id="form">
                             <div className="flex-wrapper">
-                                <div style={{flex: 6}}>
+                                <div style={{flex: 8}}>
                                     <input className="form-control" id="title" type="text" placeholder="Add task"/>
                                 </div>
 
@@ -58,6 +61,7 @@ class App extends React.Component {
                     </div>
 
                     <div id="list-wrapper">
+                        <TaskList tasks={this.state.todoList}/>
 
                     </div>
 
