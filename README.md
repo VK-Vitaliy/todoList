@@ -1,6 +1,4 @@
 # todoList
-To Do List App
-
 Приложение-задачник (ToDo list).
 
 Backend на Python (Django REST), frontend на React. 
