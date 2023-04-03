@@ -1,18 +1,21 @@
 import React from "react";
 
-const SubmitForm = () => {
+const SubmitForm = ({handleChangedUserName,handleChangedUserEmail}) => {
     return (
         <div id="form-wrapper">
             <form id="user-form">
                 <div className="flex-wrapper">
                     <div style={{flex: 6}}>
                         <input className="form-control" id="user_name"
+                               onChange={handleChangedUserName}
                                type="text" name="user_name"
                                placeholder="Add your name"/>
                     </div>
 
                     <div style={{flex: 6}}>
-                        <input className="form-control" id="user_email" type="text" name="user_email"
+                        <input className="form-control" id="user_email"
+                               onChange={handleChangedUserEmail}
+                               type="text" name="user_email"
                                placeholder="Add your email"/>
                     </div>
                 </div>

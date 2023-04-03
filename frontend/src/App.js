@@ -23,6 +23,8 @@ class App extends React.Component {
             editing: false,
         }
         this.axiosTasks = this.axiosTasks.bind(this);
+        this.handleChangedUserName = this.handleChangedUserName.bind(this)
+        this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this)
     };
 
     componentDidMount() {
@@ -40,11 +42,36 @@ class App extends React.Component {
 
     }
 
+    handleChangedUserName(e) {
+        const value = e.target.value;
+        console.log('value:', value)
+        this.setState({
+            activeItem: {
+                ...this.state.activeItem,
+                user_name: value,
+            }
+        })
+
+    }
+
+    handleChangedUserEmail(e) {
+        const value = e.target.value;
+        console.log('value:', value)
+        this.setState({
+            activeItem: {
+                ...this.state.activeItem,
+                user_name: value,
+            }
+        })
+
+    }
+
     render() {
         return (
             <div className="container">
                 <div id="task-container">
-                    <SubmitForm/>
+                    <SubmitForm handleChangedUserName={this.handleChangedUserName}
+                                handleChangedUserEmail={this.handleChangedUserEmail}/>
 
                     <div id="list-wrapper">
                         <TaskList tasks={this.state.todoList}/>
