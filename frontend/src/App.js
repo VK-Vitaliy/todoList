@@ -22,12 +22,28 @@ class App extends React.Component {
             },
             editing: false,
         }
+        this.getCookie = this.getCookie.bind(this);
         this.axiosTasks = this.axiosTasks.bind(this);
         this.handleChangedUserName = this.handleChangedUserName.bind(this)
         this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this)
         this.handleChangedTitle = this.handleChangedTitle.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     };
+
+    getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 
     componentDidMount() {
         this.axiosTasks()
@@ -77,9 +93,11 @@ class App extends React.Component {
         })
     }
 
+
     handleSubmit(e) {
         e.preventDefault()
         console.log('item:', this.state.activeItem)
+        var csrftoken = this.getCookie('csrftoken')
         var url = DOMAIN
         var method = 'POST'
 
@@ -89,7 +107,7 @@ class App extends React.Component {
             data: this.state.activeItem,
             headers: {
                 'Content-type': 'application/json',
-                // 'X-CSRFToken': csrftoken,
+                'X-CSRFToken': csrftoken,
             }
         }).then((response) => {
             this.axiosTasks()
@@ -114,7 +132,8 @@ class App extends React.Component {
                     <SubmitForm handleChangedUserName={this.handleChangedUserName}
                                 handleChangedUserEmail={this.handleChangedUserEmail}
                                 handleChangedTitle={this.handleChangedTitle}
-                                handleSubmit={this.handleSubmit}/>
+                                handleSubmit={this.handleSubmit}
+                                value={this.state.activeItem}/>
 
                     <div id="list-wrapper">
                         <TaskList tasks={this.state.todoList}/>

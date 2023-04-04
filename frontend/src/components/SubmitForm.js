@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChangedTitle, handleSubmit}) => {
+const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChangedTitle, handleSubmit, value}) => {
     return (
         <div id="form-wrapper">
             <form id="user-form">
@@ -8,6 +8,7 @@ const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChange
                     <div style={{flex: 6}}>
                         <input className="form-control" id="user_name"
                                onChange={handleChangedUserName}
+                               value={value.user_name}
                                type="text" name="user_name"
                                placeholder="Add your name"/>
                     </div>
@@ -15,6 +16,7 @@ const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChange
                     <div style={{flex: 6}}>
                         <input className="form-control" id="user_email"
                                onChange={handleChangedUserEmail}
+                               value={value.user_email}
                                type="text" name="user_email"
                                placeholder="Add your email"/>
                     </div>
@@ -27,6 +29,7 @@ const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChange
                     <div style={{flex: 8}}>
                         <input className="form-control" id="title"
                                onChange={handleChangedTitle}
+                               value={value.title}
                                name="title"
                                type="text" placeholder="Add task"/>
                     </div>
