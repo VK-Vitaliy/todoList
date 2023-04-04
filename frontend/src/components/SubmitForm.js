@@ -21,7 +21,7 @@ const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChange
                 </div>
             </form>
 
-            <form onClick={handleSubmit} id="task-form">
+            <form id="task-form">
                 <div className="flex-wrapper">
 
                     <div style={{flex: 8}}>
@@ -32,7 +32,7 @@ const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChange
                     </div>
 
                     <div style={{flex: 0.5}}>
-                        <input id="submit" className="btn btn-warning" type="submit" value="Submit"/>
+                        <input onClick={handleSubmit} id="submit" className="btn btn-warning" type="submit" value="Submit"/>
                     </div>
                 </div>
             </form>

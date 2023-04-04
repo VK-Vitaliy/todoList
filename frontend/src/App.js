@@ -80,7 +80,32 @@ class App extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
         console.log('item:', this.state.activeItem)
+        var url = DOMAIN
+        var method = 'POST'
+
+        axios({
+            method: method,
+            url: url,
+            data: this.state.activeItem,
+            headers: {
+                'Content-type': 'application/json',
+                // 'X-CSRFToken': csrftoken,
+            }
+        }).then((response) => {
+            this.axiosTasks()
+            this.setState({
+                activeItem: {
+                    id: null,
+                    title: '',
+                    user_name: '',
+                    user_email: '',
+                    completed: false,
+                }
+            })
+        }).catch(error => console.log(error))
+
     }
+
 
     render() {
         return (
