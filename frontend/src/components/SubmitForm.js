@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubmitForm = ({handleChangedUserName,handleChangedUserEmail}) => {
+const SubmitForm = ({handleChangedUserName, handleChangedUserEmail, handleChangedTitle, handleSubmit}) => {
     return (
         <div id="form-wrapper">
             <form id="user-form">
@@ -21,11 +21,14 @@ const SubmitForm = ({handleChangedUserName,handleChangedUserEmail}) => {
                 </div>
             </form>
 
-            <form id="task-form">
+            <form onClick={handleSubmit} id="task-form">
                 <div className="flex-wrapper">
 
                     <div style={{flex: 8}}>
-                        <input className="form-control" id="title" type="text" placeholder="Add task"/>
+                        <input className="form-control" id="title"
+                               onChange={handleChangedTitle}
+                               name="title"
+                               type="text" placeholder="Add task"/>
                     </div>
 
                     <div style={{flex: 0.5}}>
