@@ -24,10 +24,12 @@ class App extends React.Component {
         }
         this.getCookie = this.getCookie.bind(this);
         this.axiosTasks = this.axiosTasks.bind(this);
-        this.handleChangedUserName = this.handleChangedUserName.bind(this)
-        this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this)
-        this.handleChangedTitle = this.handleChangedTitle.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChangedUserName = this.handleChangedUserName.bind(this);
+        this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this);
+        this.handleChangedTitle = this.handleChangedTitle.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.startEdit = this.startEdit.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
     };
 
     getCookie(name) {
@@ -93,6 +95,12 @@ class App extends React.Component {
         })
     }
 
+    startEdit(task) {
+        this.setState({
+            activeItem: task,
+            editing: true,
+        })
+    }
 
     handleSubmit(e) {
         e.preventDefault()
@@ -100,6 +108,14 @@ class App extends React.Component {
         var csrftoken = this.getCookie('csrftoken')
         var url = DOMAIN
         var method = 'POST'
+
+        if (this.state.editing === true) {
+            url = DOMAIN + `${this.state.activeItem.id}/`
+            method = 'PUT'
+            this.setState({
+                editing: false
+            })
+        }
 
         axios({
             method: method,
@@ -124,6 +140,21 @@ class App extends React.Component {
 
     }
 
+    deleteTask(task) {
+        var csrftoken = this.getCookie('csrftoken')
+        var url = DOMAIN + `${task.id}/`
+        axios({
+            method: 'DELETE',
+            url: url,
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            }
+        }).then((response) => {
+            this.axiosTasks()
+        })
+    }
+
 
     render() {
         return (
@@ -136,7 +167,9 @@ class App extends React.Component {
                                 value={this.state.activeItem}/>
 
                     <div id="list-wrapper">
-                        <TaskList tasks={this.state.todoList}/>
+                        <TaskList tasks={this.state.todoList}
+                                  startEdit={this.startEdit}
+                                  deleteTask={this.deleteTask}/>
 
                     </div>
 

@@ -1,7 +1,6 @@
 import React from "react";
 
-
-const TaskList = ({tasks}) => {
+const TaskList = ({tasks, startEdit, deleteTask}) => {
     return (
         tasks.map((task, index) =>
             <div key={index} className="task-wrapper flex-wrapper">
@@ -13,11 +12,11 @@ const TaskList = ({tasks}) => {
                 </div>
 
                 <div style={{flex: 1}}>
-                    <button className="btn btn-sm btn-outline-dark">Edit</button>
+                    <button onClick={() => startEdit(task)} className="btn btn-sm btn-outline-dark">Edit</button>
                 </div>
 
                 <div style={{flex: 1}}>
-                    <button className="btn btn-sm btn-outline-dark delete">Del</button>
+                    <button onClick={() => deleteTask(task)} className="btn btn-sm btn-outline-dark delete">Del</button>
                 </div>
             </div>)
     )
