@@ -69,7 +69,7 @@ class App extends React.Component {
 
         axios.get(DOMAIN)
             .then(response => {
-                this.setState({todoList: response.data})
+                this.setState({todoList: response.data.results})
                 console.log(this.state.todoList)
             }).catch(error => console.log(error))
     }
