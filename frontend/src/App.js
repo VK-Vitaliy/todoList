@@ -28,6 +28,7 @@ class App extends React.Component {
         this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this);
         this.handleChangedTitle = this.handleChangedTitle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.strikeUnstrike = this.strikeUnstrike.bind(this);
         this.startEdit = this.startEdit.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
     };
@@ -155,6 +156,26 @@ class App extends React.Component {
         })
     }
 
+    strikeUnstrike(task) {
+        task.completed = !task.completed
+
+        var csrftoken = this.getCookie('csrftoken')
+        var url = DOMAIN + `${task.id}/`
+
+        axios({
+            method: 'PUT',
+            url: url,
+            data: {'completed': task.completed, 'title': task.title},
+            headers: {
+                'Content-type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            }
+        }).then((response) => {
+            this.axiosTasks()
+        })
+        console.log('TASK:', task.completed)
+    }
+
 
     render() {
         return (
@@ -169,7 +190,8 @@ class App extends React.Component {
                     <div id="list-wrapper">
                         <TaskList tasks={this.state.todoList}
                                   startEdit={this.startEdit}
-                                  deleteTask={this.deleteTask}/>
+                                  deleteTask={this.deleteTask}
+                                  strikeUnstrike={this.strikeUnstrike}/>
 
                     </div>
 
