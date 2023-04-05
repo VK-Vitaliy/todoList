@@ -14,13 +14,14 @@ h1, h2, h3, h4, h5, p, span, strike {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     background-color: #fff;
 
-    margin-top: 100px;
+    margin-top: 50px;
     margin-bottom: 100px;
 
     justify-content: space-around;
     align-items: flex-start;
 
 }
+
 
 #form-wrapper {
     position: -webkit-sticky;
@@ -34,9 +35,25 @@ h1, h2, h3, h4, h5, p, span, strike {
 
 #submit {
     background-color: #666664;
-    border-radius: 0;
+    border-radius: 2px;
     border: 0;
     color: #fff;
+}
+
+#dropdownMenuButton1 {
+    background-color: #666664;
+    border-radius: 2px;
+    border: 0;
+    color: #fff;
+    margin-left: 20px;
+
+}
+
+#loginLogoutButton {
+    margin-bottom: 1px;
+    margin-top: 20px;
+    margin-left: 155px;
+
 }
 
 .flex-wrapper {
@@ -50,7 +67,9 @@ h1, h2, h3, h4, h5, p, span, strike {
     margin: 5px;
     padding: 20px;
     font-size: 18px;
+
 }
+
 
 .user-info-wrapper {
     font-size: 11px;

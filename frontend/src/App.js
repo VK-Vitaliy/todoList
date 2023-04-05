@@ -4,6 +4,8 @@ import axios from "axios";
 
 import TaskList from "./components/TaskList";
 import SubmitForm from "./components/SubmitForm";
+import Pagination from "./components/Pagination";
+import Filtering from "./components/Filtering";
 
 
 const DOMAIN = 'http://127.0.0.1:8000/api/todo/'
@@ -53,9 +55,9 @@ class App extends React.Component {
         var csrftoken = this.getCookie('csrftoken')
         var contentType = 'application/json'
         return {
-                'Content-type': contentType,
-                'X-CSRFToken': csrftoken,
-            }
+            'Content-type': contentType,
+            'X-CSRFToken': csrftoken,
+        }
     }
 
     componentDidMount() {
@@ -105,13 +107,6 @@ class App extends React.Component {
         })
     }
 
-    startEdit(task) {
-        this.setState({
-            activeItem: task,
-            editing: true,
-        })
-    }
-
     handleSubmit(e) {
         e.preventDefault()
         console.log('item:', this.state.activeItem)
@@ -146,6 +141,13 @@ class App extends React.Component {
 
     }
 
+    startEdit(task) {
+        this.setState({
+            activeItem: task,
+            editing: true,
+        })
+    }
+
     deleteTask(task) {
         var url = DOMAIN + `${task.id}/`
         axios({
@@ -173,6 +175,7 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
+                <button type="button" className="btn btn-outline-light" id="loginLogoutButton">Login</button>
                 <div id="task-container">
                     <SubmitForm handleChangedUserName={this.handleChangedUserName}
                                 handleChangedUserEmail={this.handleChangedUserEmail}
@@ -187,8 +190,10 @@ class App extends React.Component {
                                   strikeUnstrike={this.strikeUnstrike}/>
 
                     </div>
-
+                    <Filtering/>
+                    <Pagination/>
                 </div>
+
             </div>
         )
     }
