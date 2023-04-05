@@ -31,6 +31,7 @@ class App extends React.Component {
         this.strikeUnstrike = this.strikeUnstrike.bind(this);
         this.startEdit = this.startEdit.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
+        this.getHeaders = this.getHeaders.bind(this);
     };
 
     getCookie(name) {
@@ -48,6 +49,15 @@ class App extends React.Component {
         return cookieValue;
     }
 
+    getHeaders() {
+        var csrftoken = this.getCookie('csrftoken')
+        var contentType = 'application/json'
+        return {
+                'Content-type': contentType,
+                'X-CSRFToken': csrftoken,
+            }
+    }
+
     componentDidMount() {
         this.axiosTasks()
     }
@@ -60,7 +70,6 @@ class App extends React.Component {
                 this.setState({todoList: response.data})
                 console.log(this.state.todoList)
             }).catch(error => console.log(error))
-
     }
 
     handleChangedUserName(e) {
@@ -106,7 +115,6 @@ class App extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
         console.log('item:', this.state.activeItem)
-        var csrftoken = this.getCookie('csrftoken')
         var url = DOMAIN
         var method = 'POST'
 
@@ -122,10 +130,7 @@ class App extends React.Component {
             method: method,
             url: url,
             data: this.state.activeItem,
-            headers: {
-                'Content-type': 'application/json',
-                'X-CSRFToken': csrftoken,
-            }
+            headers: this.getHeaders()
         }).then((response) => {
             this.axiosTasks()
             this.setState({
@@ -142,15 +147,11 @@ class App extends React.Component {
     }
 
     deleteTask(task) {
-        var csrftoken = this.getCookie('csrftoken')
         var url = DOMAIN + `${task.id}/`
         axios({
             method: 'DELETE',
             url: url,
-            headers: {
-                'Content-type': 'application/json',
-                'X-CSRFToken': csrftoken,
-            }
+            headers: this.getHeaders()
         }).then((response) => {
             this.axiosTasks()
         })
@@ -158,24 +159,16 @@ class App extends React.Component {
 
     strikeUnstrike(task) {
         task.completed = !task.completed
-
-        var csrftoken = this.getCookie('csrftoken')
         var url = DOMAIN + `${task.id}/`
-
         axios({
             method: 'PUT',
             url: url,
             data: {'completed': task.completed, 'title': task.title},
-            headers: {
-                'Content-type': 'application/json',
-                'X-CSRFToken': csrftoken,
-            }
+            headers: this.getHeaders()
         }).then((response) => {
             this.axiosTasks()
         })
-        console.log('TASK:', task.completed)
     }
-
 
     render() {
         return (
