@@ -14,6 +14,8 @@ class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            next: null,
+            previous: null,
             todoList: [],
             activeItem: {
                 id: null,
@@ -34,6 +36,7 @@ class App extends React.Component {
         this.startEdit = this.startEdit.bind(this);
         this.deleteTask = this.deleteTask.bind(this);
         this.getHeaders = this.getHeaders.bind(this);
+        this.handleNextPrevious = this.handleNextPrevious.bind(this);
     };
 
     getCookie(name) {
@@ -70,7 +73,9 @@ class App extends React.Component {
         axios.get(DOMAIN)
             .then(response => {
                 this.setState({todoList: response.data.results})
-                console.log(this.state.todoList)
+                this.setState({next: response.data.next})
+                this.setState({previous: response.data.previous})
+                console.log('item:', this.state)
             }).catch(error => console.log(error))
     }
 
@@ -172,6 +177,36 @@ class App extends React.Component {
         })
     }
 
+    handleNextPrevious(e) {
+        e.preventDefault()
+        const value = e.target.name;
+        console.log('value:', window.location.href)
+
+        var tempUrl = DOMAIN
+
+        if (value === "next") {
+            if (this.state.next != null) {
+                tempUrl = this.state.next
+
+            }
+        }
+
+        if (value === "previous") {
+            if (this.state.previous != null) {
+                tempUrl = this.state.previous
+
+            }
+        }
+
+
+        axios.get(tempUrl)
+            .then(response => {
+                this.setState({next: response.data.next})
+                this.setState({previous: response.data.previous})
+                this.setState({todoList: response.data.results})
+            }).catch(error => console.log(error))
+    }
+
     render() {
         return (
             <div className="container">
@@ -191,7 +226,9 @@ class App extends React.Component {
 
                     </div>
                     <Sorting/>
-                    <Pagination/>
+                    <Pagination handleNextPrevious={this.handleNextPrevious}
+                                next={this.state.next}
+                                previous={this.state.previous}/>
                 </div>
 
             </div>
