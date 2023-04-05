@@ -5,7 +5,7 @@ import axios from "axios";
 import TaskList from "./components/TaskList";
 import SubmitForm from "./components/SubmitForm";
 import Pagination from "./components/Pagination";
-import Filtering from "./components/Filtering";
+import Sorting from "./components/Sorting";
 
 
 const DOMAIN = 'http://127.0.0.1:8000/api/todo/'
@@ -190,7 +190,7 @@ class App extends React.Component {
                                   strikeUnstrike={this.strikeUnstrike}/>
 
                     </div>
-                    <Filtering/>
+                    <Sorting/>
                     <Pagination/>
                 </div>
 

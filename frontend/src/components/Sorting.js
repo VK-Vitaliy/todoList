@@ -1,11 +1,11 @@
 import React from "react";
 
-const Filtering = ({handleFilter}) => {
+const Sorting = ({handleFilter}) => {
     return (
         <div className="dropdown">
             <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                Filtering
+                Sorting by
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 <li><a onClick={() => handleFilter("?ordering=user_name")}
@@ -22,4 +22,4 @@ const Filtering = ({handleFilter}) => {
     )
 }
 
-export default Filtering
+export default Sorting
