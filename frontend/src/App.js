@@ -1,13 +1,14 @@
 import React from "react";
 import './App.css';
 import axios from "axios";
-import {BrowserRouter, Route, Link} from 'react-router-dom'
+import {BrowserRouter, Route, Link, Routes} from 'react-router-dom'
 import Cookies from 'universal-cookie';
 
 import TaskList from "./components/TaskList";
 import SubmitForm from "./components/SubmitForm";
 import Pagination from "./components/Pagination";
 import Sorting from "./components/Sorting";
+import LoginForm from "./components/LoginForm";
 
 
 const DOMAIN = 'http://127.0.0.1:8000/api/todo/'
@@ -195,7 +196,18 @@ class App extends React.Component {
         return (
             <div className="container">
                 <BrowserRouter>
-                    <button type="button" className="btn btn-outline-light" id="loginLogoutButton">Login</button>
+
+                    <Link to='/login'>
+                        <button ref="/login" type="button" className="btn btn-outline-light"
+                                id="loginLogoutButton">Login
+                        </button>
+                    </Link>
+
+                    <Routes>
+                        <Route exact path='/login' element={<LoginForm/>}/>
+                    </Routes>
+
+
                     <div id="task-container">
                         <SubmitForm handleChangedSubmitForm={this.handleChangedSubmitForm}
                                     handleSubmit={this.handleSubmit}
