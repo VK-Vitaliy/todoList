@@ -8,7 +8,7 @@ from todoapp.models import Task
 
 
 class TaskPagination(PageNumberPagination):
-    page_size = 5
+    page_size = 4
 
 
 class TaskModelViewSet(ModelViewSet):

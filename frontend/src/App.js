@@ -37,6 +37,7 @@ class App extends React.Component {
         this.deleteTask = this.deleteTask.bind(this);
         this.getHeaders = this.getHeaders.bind(this);
         this.handleNextPrevious = this.handleNextPrevious.bind(this);
+        this.handleFilter = this.handleFilter.bind(this);
     };
 
     getCookie(name) {
@@ -177,27 +178,35 @@ class App extends React.Component {
         })
     }
 
+    handleFilter(filterKey) {
+
+        var url = DOMAIN + filterKey
+        console.log(url)
+
+        axios.get(url)
+            .then(response => {
+                this.setState({next: response.data.next})
+                this.setState({previous: response.data.previous})
+                this.setState({todoList: response.data.results})
+            }).catch(error => console.log(error))
+    }
+
     handleNextPrevious(e) {
         e.preventDefault()
         const value = e.target.name;
-        console.log('value:', window.location.href)
-
         var tempUrl = DOMAIN
 
         if (value === "next") {
             if (this.state.next != null) {
                 tempUrl = this.state.next
-
             }
         }
 
         if (value === "previous") {
             if (this.state.previous != null) {
                 tempUrl = this.state.previous
-
             }
         }
-
 
         axios.get(tempUrl)
             .then(response => {
@@ -225,7 +234,7 @@ class App extends React.Component {
                                   strikeUnstrike={this.strikeUnstrike}/>
 
                     </div>
-                    <Sorting/>
+                    <Sorting handleFilter={this.handleFilter}/>
                     <Pagination handleNextPrevious={this.handleNextPrevious}
                                 next={this.state.next}
                                 previous={this.state.previous}/>

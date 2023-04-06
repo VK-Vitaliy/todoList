@@ -8,12 +8,12 @@ const Pagination = ({handleNextPrevious, next, previous}) => {
 
                     <li className="page-item">
                         {previous === null ? (
-                            <a className="btn btn-sm btn-outline-secondary disabled"
+                            <a className="btn btn-sm btn-link disabled"
                                onClick={handleNextPrevious}
                                name="previous"
                             >Previous</a>
                         ) : (
-                            <a className="btn btn-sm btn-outline-secondary"
+                            <a className="btn btn-sm btn-link"
                                onClick={handleNextPrevious}
                                name="previous"
                             >Previous</a>
@@ -21,22 +21,13 @@ const Pagination = ({handleNextPrevious, next, previous}) => {
                     </li>
 
                     <li className="page-item">
-                        <a className="btn btn-sm btn-outline-secondary"
-                        >1</a></li>
-                    <li className="page-item">
-                        <a className="btn btn-sm btn-outline-secondary"
-                        >2</a></li>
-                    <li className="page-item">
-                        <a className="btn btn-sm btn-outline-secondary"
-                        >3</a></li>
-                    <li className="page-item">
                         {next === null ? (
-                            <a className="btn btn-sm btn-outline-secondary disabled"
+                            <a className="btn btn-sm btn-link disabled"
                                onClick={handleNextPrevious}
                                name="next"
                             >Next</a>
                         ) : (
-                            <a className="btn btn-sm btn-outline-secondary"
+                            <a className="btn btn-sm btn-link"
                                onClick={handleNextPrevious}
                                name="next"
                             >Next</a>
