@@ -1,6 +1,8 @@
 import React from "react";
 import './App.css';
 import axios from "axios";
+import {BrowserRouter, Route, Link} from 'react-router-dom'
+import Cookies from 'universal-cookie';
 
 import TaskList from "./components/TaskList";
 import SubmitForm from "./components/SubmitForm";
@@ -28,9 +30,7 @@ class App extends React.Component {
         }
         this.getCookie = this.getCookie.bind(this);
         this.axiosTasks = this.axiosTasks.bind(this);
-        this.handleChangedUserName = this.handleChangedUserName.bind(this);
-        this.handleChangedUserEmail = this.handleChangedUserEmail.bind(this);
-        this.handleChangedTitle = this.handleChangedTitle.bind(this);
+        this.handleChangedSubmitForm = this.handleChangedSubmitForm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.strikeUnstrike = this.strikeUnstrike.bind(this);
         this.startEdit = this.startEdit.bind(this);
@@ -76,39 +76,16 @@ class App extends React.Component {
                 this.setState({todoList: response.data.results})
                 this.setState({next: response.data.next})
                 this.setState({previous: response.data.previous})
-                console.log('item:', this.state)
             }).catch(error => console.log(error))
     }
 
-    handleChangedUserName(e) {
+    handleChangedSubmitForm(e) {
+        const name = e.target.name
         const value = e.target.value;
-        console.log('value:', value)
         this.setState({
             activeItem: {
                 ...this.state.activeItem,
-                user_name: value,
-            }
-        })
-    }
-
-    handleChangedUserEmail(e) {
-        const value = e.target.value;
-        console.log('value:', value)
-        this.setState({
-            activeItem: {
-                ...this.state.activeItem,
-                user_email: value,
-            }
-        })
-    }
-
-    handleChangedTitle(e) {
-        const value = e.target.value;
-        console.log('value:', value)
-        this.setState({
-            activeItem: {
-                ...this.state.activeItem,
-                title: value,
+                [name]: value,
             }
         })
     }
@@ -179,9 +156,7 @@ class App extends React.Component {
     }
 
     handleFilter(filterKey) {
-
         var url = DOMAIN + filterKey
-        console.log(url)
 
         axios.get(url)
             .then(response => {
@@ -219,27 +194,26 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <button type="button" className="btn btn-outline-light" id="loginLogoutButton">Login</button>
-                <div id="task-container">
-                    <SubmitForm handleChangedUserName={this.handleChangedUserName}
-                                handleChangedUserEmail={this.handleChangedUserEmail}
-                                handleChangedTitle={this.handleChangedTitle}
-                                handleSubmit={this.handleSubmit}
-                                value={this.state.activeItem}/>
+                <BrowserRouter>
+                    <button type="button" className="btn btn-outline-light" id="loginLogoutButton">Login</button>
+                    <div id="task-container">
+                        <SubmitForm handleChangedSubmitForm={this.handleChangedSubmitForm}
+                                    handleSubmit={this.handleSubmit}
+                                    value={this.state.activeItem}/>
 
-                    <div id="list-wrapper">
-                        <TaskList tasks={this.state.todoList}
-                                  startEdit={this.startEdit}
-                                  deleteTask={this.deleteTask}
-                                  strikeUnstrike={this.strikeUnstrike}/>
+                        <div id="list-wrapper">
+                            <TaskList tasks={this.state.todoList}
+                                      startEdit={this.startEdit}
+                                      deleteTask={this.deleteTask}
+                                      strikeUnstrike={this.strikeUnstrike}/>
 
+                        </div>
+                        <Sorting handleFilter={this.handleFilter}/>
+                        <Pagination handleNextPrevious={this.handleNextPrevious}
+                                    next={this.state.next}
+                                    previous={this.state.previous}/>
                     </div>
-                    <Sorting handleFilter={this.handleFilter}/>
-                    <Pagination handleNextPrevious={this.handleNextPrevious}
-                                next={this.state.next}
-                                previous={this.state.previous}/>
-                </div>
-
+                </BrowserRouter>
             </div>
         )
     }
