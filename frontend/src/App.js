@@ -28,6 +28,7 @@ class App extends React.Component {
                 completed: false
             },
             editing: false,
+            token: ''
         }
         this.getCookie = this.getCookie.bind(this);
         this.axiosTasks = this.axiosTasks.bind(this);
