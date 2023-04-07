@@ -1,7 +1,6 @@
 import React from "react";
 import './App.css';
 import axios from "axios";
-import {BrowserRouter, Route, Link, Routes} from 'react-router-dom'
 import Cookies from 'universal-cookie';
 
 import TaskList from "./components/TaskList";
@@ -40,7 +39,38 @@ class App extends React.Component {
         this.getHeaders = this.getHeaders.bind(this);
         this.handleNextPrevious = this.handleNextPrevious.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
+        this.isAuthenticated = this.isAuthenticated.bind(this)
     };
+
+    getToken(username, password) {
+        axios.post('http://127.0.0.1:8000/api-token-auth/', {
+            username: username,
+            password: password
+        })
+            .then(response => {
+                this.setToken(response.data)
+            }).catch(error => alert('Неверный логин или пароль'))
+    }
+
+    setToken(token) {
+        const cookies = new Cookies()
+        cookies.set('token', token)
+        this.setState({token: token})
+    }
+
+    isAuthenticated() {
+        return this.state.token !== ''
+    }
+
+    logout() {
+        this.setToken('')
+    }
+
+    getTokenFromStorage() {
+        const cookies = new Cookies()
+        const token = cookies.get('token')
+        this.setState({token: token})
+    }
 
     getCookie(name) {
         var cookieValue = null;
@@ -66,18 +96,14 @@ class App extends React.Component {
         }
     }
 
-    componentDidMount() {
-        this.axiosTasks()
-    }
-
     axiosTasks() {
         console.log('Connection...')
-
         axios.get(DOMAIN)
             .then(response => {
                 this.setState({todoList: response.data.results})
                 this.setState({next: response.data.next})
                 this.setState({previous: response.data.previous})
+                console.log(this.isAuthenticated())
             }).catch(error => console.log(error))
     }
 
@@ -193,10 +219,18 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    componentDidMount() {
+        this.getTokenFromStorage()
+        this.axiosTasks()
+    }
+
     render() {
         return (
             <div className="container">
-                <LoginForm/>
+                {this.isAuthenticated() ? <button type="button" className="btn btn-outline-light"
+                                                  id="loginLogoutButton" onClick={() => this.logout()}>Logout
+                </button> : <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}
+
 
                 <div id="task-container">
                     <SubmitForm handleChangedSubmitForm={this.handleChangedSubmitForm}

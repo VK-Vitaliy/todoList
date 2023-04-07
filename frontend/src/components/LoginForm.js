@@ -18,6 +18,8 @@ class LoginForm extends React.Component {
 
     handleLogin(e) {
         console.log("LOGIN:", this.state.login + ' ' + "PASSWORD:", this.state.password)
+        this.props.getToken(this.state.login, this.state.password)
+        this.props.axiosTasks()
         e.preventDefault()
     }
 
@@ -57,10 +59,10 @@ class LoginForm extends React.Component {
                             </div>
                             <div className="modal-footer">
                                 <button onClick={(e) => this.handleLogin(e)} type="submit"
-                                        className="btn btn-secondary">Login
+                                        className="btn btn-secondary" data-bs-dismiss="modal">Login
                                 </button>
                                 <button id="btnHideModal" type="button" className="btn btn-secondary"
-                                       data-bs-dismiss="modal" aria-label="Close">Close
+                                        data-bs-dismiss="modal">Close
                                 </button>
                             </div>
                         </div>

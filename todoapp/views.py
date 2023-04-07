@@ -1,3 +1,4 @@
+from rest_framework import permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.viewsets import ModelViewSet
@@ -12,6 +13,7 @@ class TaskPagination(PageNumberPagination):
 
 
 class TaskModelViewSet(ModelViewSet):
+    # permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     serializer_class = TaskModelSerializer
     queryset = Task.objects.all()
