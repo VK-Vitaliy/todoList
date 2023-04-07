@@ -1,9 +1,4 @@
 import React from "react";
-import {BrowserRouter} from "react-router-dom";
-import SubmitForm from "./SubmitForm";
-import TaskList from "./TaskList";
-import Sorting from "./Sorting";
-import Pagination from "./Pagination";
 
 class LoginForm extends React.Component {
     constructor(props) {
