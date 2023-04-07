@@ -28,13 +28,45 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={(event) => this.handleLogin(event)}>
-                <input type="text" name="login" placeholder="login"
-                       value={this.state.login} onChange={(event) => this.handleChange(event)}/>
-                <input type="password" name="password" placeholder="password"
-                       value={this.state.password} onChange={(event) => this.handleChange(event)}/>
-                <input type="submit" value="Login"/>
-            </form>
+            <div>
+                <button type="button" className="btn btn-outline-light"
+                        id="loginLogoutButton" data-bs-toggle="modal" data-bs-target="#exampleModal">Login
+                </button>
+
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <form>
+                                    <div className="form-group">
+                                        <label htmlFor="inputUserName">Username</label>
+                                        <input className="form-control" placeholder="Login Username" type="text"
+                                               id="inputUserName"/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="inputPassword">Password</label>
+                                        <input className="form-control" placeholder="Login Password" type="password"
+                                               id="inputPassword"/>
+                                    </div>
+                                </form>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="submit" className="btn btn-primary">Login</button>
+                                <button id="btnHideModal" type="button" className="btn btn-primary"
+                                        data-dismiss="modal">Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
         )
     }

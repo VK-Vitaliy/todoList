@@ -195,37 +195,25 @@ class App extends React.Component {
     render() {
         return (
             <div className="container">
-                <BrowserRouter>
+                <LoginForm/>
 
-                    <Link to='/login'>
-                        <button ref="/login" type="button" className="btn btn-outline-light"
-                                id="loginLogoutButton">Login
-                        </button>
-                    </Link>
+                <div id="task-container">
+                    <SubmitForm handleChangedSubmitForm={this.handleChangedSubmitForm}
+                                handleSubmit={this.handleSubmit}
+                                value={this.state.activeItem}/>
 
-                    <Routes>
-                        <Route exact path='/login' element={<LoginForm/>}/>
-                    </Routes>
+                    <div id="list-wrapper">
+                        <TaskList tasks={this.state.todoList}
+                                  startEdit={this.startEdit}
+                                  deleteTask={this.deleteTask}
+                                  strikeUnstrike={this.strikeUnstrike}/>
 
-
-                    <div id="task-container">
-                        <SubmitForm handleChangedSubmitForm={this.handleChangedSubmitForm}
-                                    handleSubmit={this.handleSubmit}
-                                    value={this.state.activeItem}/>
-
-                        <div id="list-wrapper">
-                            <TaskList tasks={this.state.todoList}
-                                      startEdit={this.startEdit}
-                                      deleteTask={this.deleteTask}
-                                      strikeUnstrike={this.strikeUnstrike}/>
-
-                        </div>
-                        <Sorting handleFilter={this.handleFilter}/>
-                        <Pagination handleNextPrevious={this.handleNextPrevious}
-                                    next={this.state.next}
-                                    previous={this.state.previous}/>
                     </div>
-                </BrowserRouter>
+                    <Sorting handleFilter={this.handleFilter}/>
+                    <Pagination handleNextPrevious={this.handleNextPrevious}
+                                next={this.state.next}
+                                previous={this.state.previous}/>
+                </div>
             </div>
         )
     }
