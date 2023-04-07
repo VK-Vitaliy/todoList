@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
     }
 
     handleLogin(e) {
-        console.log(this.state.login + ' ' + this.state.password)
+        console.log("LOGIN:", this.state.login + ' ' + "PASSWORD:", this.state.password)
         e.preventDefault()
     }
 
@@ -38,28 +38,34 @@ class LoginForm extends React.Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <h5 className="modal-title" id="exampleModalLabel">Login Form</h5>
                             </div>
                             <div className="modal-body">
                                 <form>
                                     <div className="form-group">
                                         <label htmlFor="inputUserName">Username</label>
-                                        <input className="form-control" placeholder="Login Username" type="text"
+                                        <input className="form-control" name="login"
+                                               value={this.state.login}
+                                               onChange={(e) => this.handleChange(e)}
+                                               placeholder="Login Username" type="text"
                                                id="inputUserName"/>
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="inputPassword">Password</label>
-                                        <input className="form-control" placeholder="Login Password" type="password"
+                                        <input className="form-control" name="password"
+                                               value={this.state.password}
+                                               onChange={(e) => this.handleChange(e)}
+                                               placeholder="Login Password" type="password"
                                                id="inputPassword"/>
                                     </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
-                                <button type="submit" className="btn btn-primary">Login</button>
-                                <button id="btnHideModal" type="button" className="btn btn-primary"
-                                        data-dismiss="modal">Close
+                                <button onClick={(e) => this.handleLogin(e)} type="submit"
+                                        className="btn btn-secondary">Login
+                                </button>
+                                <button id="btnHideModal" type="button" className="btn btn-secondary"
+                                       data-bs-dismiss="modal" aria-label="Close">Close
                                 </button>
                             </div>
                         </div>
