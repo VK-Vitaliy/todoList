@@ -39,7 +39,9 @@ class App extends React.Component {
         this.getHeaders = this.getHeaders.bind(this);
         this.handleNextPrevious = this.handleNextPrevious.bind(this);
         this.handleFilter = this.handleFilter.bind(this);
-        this.isAuthenticated = this.isAuthenticated.bind(this)
+        this.isAuthenticated = this.isAuthenticated.bind(this);
+        this.setToken = this.setToken.bind(this);
+        this.getToken = this.getToken.bind(this);
     };
 
     getToken(username, password) {
@@ -48,7 +50,8 @@ class App extends React.Component {
             password: password
         })
             .then(response => {
-                this.setToken(response.data)
+                this.setToken(response.data['token'])
+                console.log(response.data['token'])
             }).catch(error => alert('Неверный логин или пароль'))
     }
 
@@ -69,7 +72,7 @@ class App extends React.Component {
     getTokenFromStorage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({token: token})
+        this.setState({'token': token})
     }
 
     getCookie(name) {
@@ -103,7 +106,6 @@ class App extends React.Component {
                 this.setState({todoList: response.data.results})
                 this.setState({next: response.data.next})
                 this.setState({previous: response.data.previous})
-                console.log(this.isAuthenticated())
             }).catch(error => console.log(error))
     }
 

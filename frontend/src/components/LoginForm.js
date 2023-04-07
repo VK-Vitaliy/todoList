@@ -18,7 +18,6 @@ class LoginForm extends React.Component {
 
     handleLogin(e) {
         this.props.getToken(this.state.login, this.state.password)
-        this.props.axiosTasks()
         e.preventDefault()
     }
 
