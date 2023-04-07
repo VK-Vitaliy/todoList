@@ -51,7 +51,6 @@ class App extends React.Component {
         })
             .then(response => {
                 this.setToken(response.data['token'])
-                console.log(response.data['token'])
             }).catch(error => alert('Неверный логин или пароль'))
     }
 
@@ -72,7 +71,8 @@ class App extends React.Component {
     getTokenFromStorage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({'token': token})
+        this.setState({token: token})
+        // console.log(token)
     }
 
     getCookie(name) {
