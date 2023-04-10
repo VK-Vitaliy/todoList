@@ -57,7 +57,7 @@ class App extends React.Component {
     setToken(token) {
         const cookies = new Cookies()
         cookies.set('token', token)
-        this.setState({token: token})
+        this.setState({token: token}, () => this.axiosTasks())
     }
 
     isAuthenticated() {
@@ -71,8 +71,7 @@ class App extends React.Component {
     getTokenFromStorage() {
         const cookies = new Cookies()
         const token = cookies.get('token')
-        this.setState({token: token})
-        // console.log(token)
+        this.setState({token: token}, () => this.axiosTasks())
     }
 
     getCookie(name) {
@@ -91,22 +90,27 @@ class App extends React.Component {
     }
 
     getHeaders() {
-        var csrftoken = this.getCookie('csrftoken')
-        var contentType = 'application/json'
-        return {
-            'Content-type': contentType,
-            'X-CSRFToken': csrftoken,
+        let headers = {
+            'Content-type': 'application/json',
+            'X-CSRFToken': this.getCookie('csrftoken'),
         }
+        if (this.isAuthenticated()) {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
     }
 
     axiosTasks() {
         console.log('Connection...')
-        axios.get(DOMAIN)
-            .then(response => {
-                this.setState({todoList: response.data.results})
-                this.setState({next: response.data.next})
-                this.setState({previous: response.data.previous})
-            }).catch(error => console.log(error))
+        axios({
+            method: "GET",
+            url: DOMAIN,
+            headers: this.getHeaders()
+        }).then(response => {
+            this.setState({todoList: response.data.results})
+            this.setState({next: response.data.next})
+            this.setState({previous: response.data.previous})
+        }).catch(error => console.log(error))
     }
 
     handleChangedSubmitForm(e) {
@@ -213,17 +217,20 @@ class App extends React.Component {
             }
         }
 
-        axios.get(tempUrl)
-            .then(response => {
-                this.setState({next: response.data.next})
-                this.setState({previous: response.data.previous})
-                this.setState({todoList: response.data.results})
-            }).catch(error => console.log(error))
+        axios({
+            method: "GET",
+            url: DOMAIN,
+            headers: this.getHeaders()
+        }).then(response => {
+            this.setState({next: response.data.next})
+            this.setState({previous: response.data.previous})
+            this.setState({todoList: response.data.results})
+        }).catch(error => console.log(error))
     }
 
     componentDidMount() {
         this.getTokenFromStorage()
-        this.axiosTasks()
+        // this.axiosTasks()
     }
 
     render() {
