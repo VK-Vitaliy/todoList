@@ -27,18 +27,13 @@ class TestTodoAppViewSet(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_edit_task(self):
-        task = Task.objects.create(title='test task',
-                                   user_name="Test",
-                                   user_email='test@mail.ru')
-
+        task = mixer.blend(Task)
         client = APIClient()
         response = client.put(f'/api/todo/{task.id}/', {"title": 'test task2'})
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_edit_task_by_admin(self):
-        task = Task.objects.create(title='test task',
-                                   user_name="Test",
-                                   user_email='test@mail.ru')
+        task = mixer.blend(Task)
         client = APIClient()
         admin = User.objects.create_superuser('admin', 'admin@admin.com', 'admin123456')
         client.login(username='admin', password='admin123456')
@@ -49,18 +44,13 @@ class TestTodoAppViewSet(TestCase):
         client.logout()
 
     def test_delete_task(self):
-        task = Task.objects.create(title='test task',
-                                   user_name="Test",
-                                   user_email='test@mail.ru')
-
+        task = mixer.blend(Task)
         client = APIClient()
-        response = client.delete(f'/api/todo/{task.id}/', {"title": 'test task2'})
+        response = client.delete(f'/api/todo/{task.id}/')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_delete_task_by_admin(self):
-        task = Task.objects.create(title='test task',
-                                   user_name="Test",
-                                   user_email='test@mail.ru')
+        task = mixer.blend(Task)
         client = APIClient()
         admin = User.objects.create_superuser('admin', 'admin@admin.com', 'admin123456')
         client.login(username='admin', password='admin123456')
