@@ -1,7 +1,6 @@
-import json
 from django.test import TestCase
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, force_authenticate, APIClient, APISimpleTestCase, APITestCase
+from rest_framework.test import APIRequestFactory, force_authenticate, APIClient
 from mixer.backend.django import mixer
 from django.contrib.auth.models import User
 from .views import TaskModelViewSet
@@ -22,6 +21,18 @@ class TestTodoAppViewSet(TestCase):
                                          'user_name': "Test",
                                          'user_email': 'test@mail.ru',
                                          }, format='json')
+        view = TaskModelViewSet.as_view({'post': 'create'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_create_admin(self):
+        factory = APIRequestFactory()
+        request = factory.post('/api/', {'title': 'test task',
+                                         'user_name': "Test",
+                                         'user_email': 'test@mail.ru',
+                                         }, format='json')
+        admin = User.objects.create_superuser('admin', 'admin@admin.com', 'admin123456')
+        force_authenticate(request, admin)
         view = TaskModelViewSet.as_view({'post': 'create'})
         response = view(request)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
