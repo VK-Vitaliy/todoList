@@ -13,10 +13,16 @@ class TaskPagination(PageNumberPagination):
 
 
 class TaskModelViewSet(ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     serializer_class = TaskModelSerializer
     queryset = Task.objects.all()
     pagination_class = TaskPagination
     filter_backends = [OrderingFilter]
     ordering_fields = ['user_name', 'user_email', 'completed']
+
+    def get_permissions(self):
+        if self.action in ['list', 'create']:
+            permission_classes = [permissions.AllowAny]
+        else:
+            permission_classes = [permissions.IsAuthenticated]
+        return [permission() for permission in permission_classes]
