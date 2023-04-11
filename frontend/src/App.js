@@ -75,7 +75,7 @@ class App extends React.Component {
     }
 
     getCookie(name) {
-        var cookieValue = null;
+        let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             var cookies = document.cookie.split(';');
             for (var i = 0; i < cookies.length; i++) {
@@ -110,7 +110,9 @@ class App extends React.Component {
             this.setState({todoList: response.data.results})
             this.setState({next: response.data.next})
             this.setState({previous: response.data.previous})
+            console.log(this.state)
         }).catch(error => console.log(error))
+
     }
 
     handleChangedSubmitForm(e) {
@@ -126,9 +128,8 @@ class App extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault()
-        console.log('item:', this.state.activeItem)
-        var url = DOMAIN
-        var method = 'POST'
+        let url = DOMAIN;
+        let method = 'POST';
 
         if (this.state.editing === true) {
             url = DOMAIN + `${this.state.activeItem.id}/`
@@ -166,7 +167,7 @@ class App extends React.Component {
     }
 
     deleteTask(task) {
-        var url = DOMAIN + `${task.id}/`
+        const url = DOMAIN + `${task.id}/`;
         axios({
             method: 'DELETE',
             url: url,
@@ -178,7 +179,7 @@ class App extends React.Component {
 
     strikeUnstrike(task) {
         task.completed = !task.completed
-        var url = DOMAIN + `${task.id}/`
+        const url = DOMAIN + `${task.id}/`;
         axios({
             method: 'PUT',
             url: url,
@@ -190,20 +191,24 @@ class App extends React.Component {
     }
 
     handleFilter(filterKey) {
-        var url = DOMAIN + filterKey
+        const url = DOMAIN + filterKey;
 
-        axios.get(url)
-            .then(response => {
-                this.setState({next: response.data.next})
-                this.setState({previous: response.data.previous})
-                this.setState({todoList: response.data.results})
-            }).catch(error => console.log(error))
+        axios({
+            method: "GET",
+            url: url,
+            headers: this.getHeaders()
+        }).then(response => {
+            this.setState({next: response.data.next})
+            this.setState({previous: response.data.previous})
+            this.setState({todoList: response.data.results})
+        }).catch(error => console.log(error))
     }
 
     handleNextPrevious(e) {
         e.preventDefault()
         const value = e.target.name;
-        var tempUrl = DOMAIN
+        let tempUrl = DOMAIN;
+        console.log(this.state)
 
         if (value === "next") {
             if (this.state.next != null) {
@@ -219,7 +224,7 @@ class App extends React.Component {
 
         axios({
             method: "GET",
-            url: DOMAIN,
+            url: tempUrl,
             headers: this.getHeaders()
         }).then(response => {
             this.setState({next: response.data.next})
@@ -230,7 +235,6 @@ class App extends React.Component {
 
     componentDidMount() {
         this.getTokenFromStorage()
-        // this.axiosTasks()
     }
 
     render() {

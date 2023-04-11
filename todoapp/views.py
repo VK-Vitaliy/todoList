@@ -13,7 +13,7 @@ class TaskPagination(PageNumberPagination):
 
 
 class TaskModelViewSet(ModelViewSet):
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     serializer_class = TaskModelSerializer
     queryset = Task.objects.all()
